@@ -191,8 +191,8 @@ namespace project
 
                     DDA temp = new DDA();
                     temp.Xst = 0;
-                    temp.Yst = (ClientSize.Height / 2) + 60;
-                    temp.Yend = (ClientSize.Height / 2) + 60;
+                    temp.Yst = (ClientSize.Height / 2) +car.Height;
+                    temp.Yend = (ClientSize.Height / 2) + car.Height;
                     lines.Add(temp);
                     ct++;
                 }
@@ -213,6 +213,11 @@ namespace project
             {
                 if (keyCode == Keys.Right)
                 {
+                    if(lines[lines.Count - 1].Xend<car.Width)
+                    {
+                    lines[lines.Count - 1].Xend += 80;
+
+                    }
                     lines[lines.Count - 1].Xend += 20;
                     current_xend = lines[lines.Count - 1].Xend;
                     current_yend = lines[lines.Count - 1].Yend;
@@ -242,13 +247,19 @@ namespace project
             }
             if (state == 'c')
             {
+                if(ct>0)
+                {
+
                 if (keyCode == Keys.Right)
                 {
                     c1[c1.Count - 1].rad += 20;
+                    c1[c1.Count - 1].yc -= 20;
                 }
                 if (keyCode == Keys.Left)
                 {
                     c1[c1.Count - 1].rad -= 20;
+                    c1[c1.Count - 1].yc += 20;
+                }
                 }
             }
         }
@@ -256,7 +267,7 @@ namespace project
         {
             off = new Bitmap(ClientSize.Width, ClientSize.Height);
             bg = new Bitmap("bg.jpg");
-            car = new Bitmap("car.png");
+            car = new Bitmap("car2.png");
             car.MakeTransparent(car.GetPixel(0, 0));
 
 
@@ -278,7 +289,7 @@ namespace project
         {
             g.Clear(Color.Black);
             g.DrawImage(bg, 0, 0, ClientSize.Width, ClientSize.Height);
-            g.DrawImage(car, 0, ClientSize.Height / 2, 80, 60);
+            g.DrawImage(car, 0, ClientSize.Height / 2);
             foreach (var l in lines)
             {
                 g.DrawLine(p, l.Xst, l.Yst, l.Xend, l.Yend);
