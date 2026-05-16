@@ -1,13 +1,13 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\omar\\OneDrive\\Desktop\\graphics project\\Graphics1_project\\project\\",
+  "WorkspaceRootPath": "D:\\my problems\\Graphics1\\Graphics1_project\\project\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7A5AFDA7-98E5-90C4-3164-A14884667405}|project\\project.csproj|c:\\users\\omar\\onedrive\\desktop\\graphics project\\graphics1_project\\project\\project\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{7A5AFDA7-98E5-90C4-3164-A14884667405}|project\\project.csproj|d:\\my problems\\graphics1\\graphics1_project\\project\\project\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7A5AFDA7-98E5-90C4-3164-A14884667405}|project\\project.csproj|solutionrelative:project\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3A57A27B-E03E-41E5-A2AF-8BA804148588}|project\\project.csproj|C:\\Users\\omar\\OneDrive\\Desktop\\graphics project\\Graphics1_project\\project\\project\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{3A57A27B-E03E-41E5-A2AF-8BA804148588}|project\\project.csproj|D:\\my problems\\Graphics1\\Graphics1_project\\project\\project\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{3A57A27B-E03E-41E5-A2AF-8BA804148588}|project\\project.csproj|solutionrelative:project\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
@@ -24,11 +24,11 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Form1.cs",
-              "DocumentMoniker": "C:\\Users\\omar\\OneDrive\\Desktop\\graphics project\\Graphics1_project\\project\\project\\Form1.cs",
+              "DocumentMoniker": "D:\\my problems\\Graphics1\\Graphics1_project\\project\\project\\Form1.cs",
               "RelativeDocumentMoniker": "project\\Form1.cs",
-              "ToolTip": "C:\\Users\\omar\\OneDrive\\Desktop\\graphics project\\Graphics1_project\\project\\project\\Form1.cs",
-              "RelativeToolTip": "project\\Form1.cs",
-              "ViewState": "AgIAALMAAAAAAAAAAAAcwEcBAABAAAAAAAAAAA==",
+              "ToolTip": "D:\\my problems\\Graphics1\\Graphics1_project\\project\\project\\Form1.cs*",
+              "RelativeToolTip": "project\\Form1.cs*",
+              "ViewState": "AgIAAEYBAADAMzMzMzMtwFEBAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-16T09:49:53.22Z",
               "EditorCaption": ""
@@ -37,9 +37,10 @@
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "Form1.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\omar\\OneDrive\\Desktop\\graphics project\\Graphics1_project\\project\\project\\Form1.cs",
+              "DocumentMoniker": "D:\\my problems\\Graphics1\\Graphics1_project\\project\\project\\Form1.cs",
               "RelativeDocumentMoniker": "project\\Form1.cs",
               "ToolTip": "D:\\my problems\\Graphics1\\Graphics1_project\\project\\project\\Form1.cs [Design]",
+              "RelativeToolTip": "project\\Form1.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-16T09:49:19.762Z"
             }

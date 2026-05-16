@@ -10,6 +10,7 @@ namespace project
         public float cx, cy;
         int speed = 10;
         public int direction = 1;
+        public bool can_move = false;
         public void calc()
         {
             dy = Yend - this.Yst;
@@ -20,78 +21,81 @@ namespace project
         }
         public bool CalcNextPoint()
         {
-            if (direction == 0)
+            if (can_move)
             {
-                float tempX = Xst;
-                float tempY = Yst;
-                Xst = Xend;
-                Yst = Yend;
-                Xend = tempX;
-                Yend = tempY;
-                calc();
-                direction = 1;
-                return true;
-            }
-
-            if (Math.Abs(dx) > Math.Abs(dy))
-            {
-                if (Xst < Xend)
+                if (direction == 0)
                 {
-                    cx += speed;
-                    cy += m * speed;
+                    float tempX = Xst;
+                    float tempY = Yst;
+                    Xst = Xend;
+                    Yst = Yend;
+                    Xend = tempX;
+                    Yend = tempY;
+                    calc();
+                    direction = 1;
+                    return true;
+                }
 
-                    if (cx >= Xend)
+                if (Math.Abs(dx) > Math.Abs(dy))
+                {
+                    if (Xst < Xend)
                     {
-                        cx = Xend;
-                        cy = Yend;
-                        direction = 0;
+                        cx += speed;
+                        cy += m * speed;
+
+                        if (cx >= Xend)
+                        {
+                            cx = Xend;
+                            cy = Yend;
+                            direction = 0;
+                        }
+                    }
+                    else
+                    {
+                        cx -= speed;
+                        cy -= m * speed;
+
+                        if (cx <= Xend)
+                        {
+                            cx = Xend;
+                            cy = Yend;
+                            direction = 0;
+                        }
                     }
                 }
                 else
                 {
-                    cx -= speed;
-                    cy -= m * speed;
-
-                    if (cx <= Xend)
+                    if (Yst < Yend)
                     {
-                        cx = Xend;
-                        cy = Yend;
-                        direction = 0;
+                        cy += speed;
+
+                        if (m != 0)
+                            cx += (1 / m) * speed;
+
+                        if (cy >= Yend)
+                        {
+                            cx = Xend;
+                            cy = Yend;
+                            direction = 0;
+                        }
+                    }
+                    else
+                    {
+                        cy -= speed;
+
+                        if (m != 0)
+                            cx -= (1 / m) * speed;
+
+                        if (cy <= Yend)
+                        {
+                            cx = Xend;
+                            cy = Yend;
+                            direction = 0;
+                        }
                     }
                 }
+
             }
-            else
-            {
-                if (Yst < Yend)
-                {
-                    cy += speed;
-
-                    if (m != 0)
-                        cx += (1 / m) * speed;
-
-                    if (cy >= Yend)
-                    {
-                        cx = Xend;
-                        cy = Yend;
-                        direction = 0;
-                    }
-                }
-                else
-                {
-                    cy -= speed;
-
-                    if (m != 0)
-                        cx -= (1 / m) * speed;
-
-                    if (cy <= Yend)
-                    {
-                        cx = Xend;
-                        cy = Yend;
-                        direction = 0;
-                    }
-                }
-            }
-
             return true;
         }
     }
@@ -102,11 +106,13 @@ namespace project
         public int yc;
         public float thradian;
         public float st, end;
-        public bool canmove = false;
+        public bool can_move = false;
         public PointF linepont = new PointF();
         public int movex = 0;
         public int movey = 0;
         public bool flag = false;
+       
+       
 
         public void Drawcircle(Graphics g)
         {
@@ -138,6 +144,7 @@ namespace project
             return p;
         }
     }
+
     public partial class Form1 : Form
     {
         Bitmap off;
@@ -148,7 +155,13 @@ namespace project
         int ct = 0;
         Pen p = new Pen(Color.Black, 5);
         List<Circle> c1 = new List<Circle>();
-        bool is_start =false;
+        bool is_start = false;
+        List<char> road = new List<char>();
+        int line_index = 0;
+        int circle_index = 0;
+        int road_index = 0;
+        int car_x = 0;
+        int car_y = 0;
         public Form1()
         {
             InitializeComponent();
@@ -169,13 +182,8 @@ namespace project
         private void Tt_Tick(object? sender, EventArgs e)
         {
             if (is_start)
-            { foreach (var c in lines)
+                motion();
 
-              
-                   c.CalcNextPoint();
-             
-            }
-            
             drawdb(CreateGraphics());
         }
 
@@ -186,10 +194,10 @@ namespace project
 
         private void Form1_KeyDown(object? sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Enter)
             {
                 is_start = true;
-                foreach(var l in lines)
+                foreach (var l in lines)
                 {
                     l.calc();
                 }
@@ -211,8 +219,11 @@ namespace project
                     temp.Yend = (ClientSize.Height / 2) + car.Height;
                     temp.cx = temp.Xst;
                     temp.cy = temp.Yst;
-                    
+
                     lines.Add(temp);
+                    road.Add('l');
+                    car_x = (int)lines[0].cx;
+                    car_y = (int)lines[0].cy - car.Height;
                     ct++;
                 }
                 else
@@ -223,6 +234,7 @@ namespace project
                     temp.Xend = current_xend;
                     temp.Yend = current_yend;
                     lines.Add(temp);
+                    road.Add('l');
                 }
 
             }
@@ -263,6 +275,7 @@ namespace project
                 temp.st = 0;
                 temp.end = 360;
                 c1.Add(temp);
+                road.Add('c');
             }
             if (state == 'c')
             {
@@ -293,7 +306,33 @@ namespace project
 
         void motion()
         {
+            if (is_start)
+            {
+                if (road_index < road.Count)
+                {
+                    /////// for line motion
 
+                    if (road[road_index] == 'l')
+                    {
+                        lines[line_index].CalcNextPoint();
+                        lines[line_index].can_move = true;
+                        car_x = (int)lines[line_index].cx;
+                        car_y = (int)lines[line_index].cy - car.Height;
+                        if (lines[line_index].direction == 0)
+                        {
+                            lines[line_index].can_move = false;
+                            line_index++;
+                            road_index++;
+                        }
+                    }
+
+                    // for circle motion
+                    else if (road[road_index] == 'c')
+                    {
+                        
+                    }
+                }
+            }
         }
 
         private void Form1_Paint(object? sender, PaintEventArgs e)
@@ -312,14 +351,14 @@ namespace project
         {
             g.Clear(Color.Black);
             g.DrawImage(bg, 0, 0, ClientSize.Width, ClientSize.Height);
-            if(!is_start)
+            if (!is_start)
             {
 
-            g.DrawImage(car, 0, ClientSize.Height / 2);
+                g.DrawImage(car, 0, ClientSize.Height / 2);
             }
             else
             {
-                g.DrawImage(car, lines[0].cx, lines[0].cy-car.Height);
+                g.DrawImage(car, car_x, car_y);
 
             }
             foreach (var l in lines)
