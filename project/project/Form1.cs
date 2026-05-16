@@ -148,6 +148,7 @@ namespace project
         int ct = 0;
         Pen p = new Pen(Color.Black, 5);
         List<Circle> c1 = new List<Circle>();
+        bool is_start =false;
         public Form1()
         {
             InitializeComponent();
@@ -167,7 +168,14 @@ namespace project
 
         private void Tt_Tick(object? sender, EventArgs e)
         {
+            if (is_start)
+            { foreach (var c in lines)
 
+              
+                   c.CalcNextPoint();
+             
+            }
+            
             drawdb(CreateGraphics());
         }
 
@@ -178,6 +186,14 @@ namespace project
 
         private void Form1_KeyDown(object? sender, KeyEventArgs e)
         {
+            if(e.KeyCode == Keys.Enter)
+            {
+                is_start = true;
+                foreach(var l in lines)
+                {
+                    l.calc();
+                }
+            }
             drawline(e.KeyCode);
             drawcircles(e.KeyCode);
         }
@@ -191,8 +207,11 @@ namespace project
 
                     DDA temp = new DDA();
                     temp.Xst = 0;
-                    temp.Yst = (ClientSize.Height / 2) +car.Height;
+                    temp.Yst = (ClientSize.Height / 2) + car.Height;
                     temp.Yend = (ClientSize.Height / 2) + car.Height;
+                    temp.cx = temp.Xst;
+                    temp.cy = temp.Yst;
+                    
                     lines.Add(temp);
                     ct++;
                 }
@@ -213,9 +232,9 @@ namespace project
             {
                 if (keyCode == Keys.Right)
                 {
-                    if(lines[lines.Count - 1].Xend<car.Width)
+                    if (lines[lines.Count - 1].Xend < car.Width)
                     {
-                    lines[lines.Count - 1].Xend += 80;
+                        lines[lines.Count - 1].Xend += 80;
 
                     }
                     lines[lines.Count - 1].Xend += 20;
@@ -247,19 +266,19 @@ namespace project
             }
             if (state == 'c')
             {
-                if(ct>0)
+                if (ct > 0)
                 {
 
-                if (keyCode == Keys.Right)
-                {
-                    c1[c1.Count - 1].rad += 20;
-                    c1[c1.Count - 1].yc -= 20;
-                }
-                if (keyCode == Keys.Left)
-                {
-                    c1[c1.Count - 1].rad -= 20;
-                    c1[c1.Count - 1].yc += 20;
-                }
+                    if (keyCode == Keys.Right)
+                    {
+                        c1[c1.Count - 1].rad += 20;
+                        c1[c1.Count - 1].yc -= 20;
+                    }
+                    if (keyCode == Keys.Left)
+                    {
+                        c1[c1.Count - 1].rad -= 20;
+                        c1[c1.Count - 1].yc += 20;
+                    }
                 }
             }
         }
@@ -270,6 +289,10 @@ namespace project
             car = new Bitmap("car2.png");
             car.MakeTransparent(car.GetPixel(0, 0));
 
+        }
+
+        void motion()
+        {
 
         }
 
@@ -289,10 +312,20 @@ namespace project
         {
             g.Clear(Color.Black);
             g.DrawImage(bg, 0, 0, ClientSize.Width, ClientSize.Height);
+            if(!is_start)
+            {
+
             g.DrawImage(car, 0, ClientSize.Height / 2);
+            }
+            else
+            {
+                g.DrawImage(car, lines[0].cx, lines[0].cy-car.Height);
+
+            }
             foreach (var l in lines)
             {
                 g.DrawLine(p, l.Xst, l.Yst, l.Xend, l.Yend);
+                //g.FillEllipse(Brushes.Black,l.cx, l.cy,15,15);
             }
             foreach (var c in c1)
             {
