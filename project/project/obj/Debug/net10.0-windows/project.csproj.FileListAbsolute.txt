@@ -3,7 +3,6 @@ D:\my problems\Graphics1\Graphics1_project\project\project\bin\Debug\net10.0-win
 D:\my problems\Graphics1\Graphics1_project\project\project\bin\Debug\net10.0-windows\project.runtimeconfig.json
 D:\my problems\Graphics1\Graphics1_project\project\project\bin\Debug\net10.0-windows\project.dll
 D:\my problems\Graphics1\Graphics1_project\project\project\bin\Debug\net10.0-windows\project.pdb
-D:\my problems\Graphics1\Graphics1_project\project\project\obj\Debug\net10.0-windows\project.Form1.resources
 D:\my problems\Graphics1\Graphics1_project\project\project\obj\Debug\net10.0-windows\project.csproj.GenerateResource.cache
 D:\my problems\Graphics1\Graphics1_project\project\project\obj\Debug\net10.0-windows\project.GeneratedMSBuildEditorConfig.editorconfig
 D:\my problems\Graphics1\Graphics1_project\project\project\obj\Debug\net10.0-windows\project.AssemblyInfoInputs.cache
@@ -15,3 +14,4 @@ D:\my problems\Graphics1\Graphics1_project\project\project\obj\Debug\net10.0-win
 D:\my problems\Graphics1\Graphics1_project\project\project\obj\Debug\net10.0-windows\project.pdb
 D:\my problems\Graphics1\Graphics1_project\project\project\obj\Debug\net10.0-windows\project.genruntimeconfig.cache
 D:\my problems\Graphics1\Graphics1_project\project\project\obj\Debug\net10.0-windows\ref\project.dll
+D:\my problems\Graphics1\Graphics1_project\project\project\obj\Debug\net10.0-windows\project.DDA.resources
