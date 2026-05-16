@@ -118,16 +118,13 @@ namespace project
                 x += xc + movex;
                 y += yc + movey;
 
-                g.FillEllipse(Brushes.Green, x, y, 5, 5);
+                g.FillEllipse(Brushes.Black, x, y, 5, 5);
             }
             PointF tempst = Getnextpoint((int)st);
             PointF tempend = Getnextpoint((int)end);
-            g.DrawLine(Pens.Green, xc + movex, yc + movey,
-    tempst.X + movex, tempst.Y + movey);
+            //g.DrawLine(Pens.Green, xc + movex, yc + movey,tempst.X + movex, tempst.Y + movey);
 
-            g.DrawLine(Pens.Green,
-                xc + movex, yc + movey,
-                tempend.X + movex, tempend.Y + movey);
+            //g.DrawLine(Pens.Green,xc + movex, yc + movey,tempend.X + movex, tempend.Y + movey);
         }
         public PointF Getnextpoint(int theta)
         {
@@ -150,6 +147,7 @@ namespace project
         float current_xend, current_yend;
         int ct = 0;
         Pen p = new Pen(Color.Black, 5);
+        List<Circle> c1 = new List<Circle>();
         public Form1()
         {
             InitializeComponent();
@@ -180,12 +178,12 @@ namespace project
 
         private void Form1_KeyDown(object? sender, KeyEventArgs e)
         {
-          rasm_el5t();
-
+            drawline(e.KeyCode);
+            drawcircles(e.KeyCode);
         }
-        void rasm_el5t()
+        void drawline(Keys keyCode)
         {
-            if (e.KeyCode == Keys.L)
+            if (keyCode == Keys.L)
             {
                 state = 'l';
                 if (ct == 0)
@@ -213,17 +211,44 @@ namespace project
 
             if (state == 'l')
             {
-                if (e.KeyCode == Keys.Right)
+                if (keyCode == Keys.Right)
                 {
                     lines[lines.Count - 1].Xend += 20;
                     current_xend = lines[lines.Count - 1].Xend;
                     current_yend = lines[lines.Count - 1].Yend;
                 }
-                if (e.KeyCode == Keys.Left)
+                if (keyCode == Keys.Left)
                 {
                     lines[lines.Count - 1].Xend -= 20;
                     current_xend = lines[lines.Count - 1].Xend;
                     current_yend = lines[lines.Count - 1].Yend;
+                }
+            }
+        }
+        void drawcircles(Keys keyCode)
+        {
+
+            if (keyCode == Keys.C)
+
+            {
+                state = 'c';
+                Circle temp = new Circle();
+                temp.rad = 50;
+                temp.xc = (int)current_xend;
+                temp.yc = (int)current_yend - temp.rad;
+                temp.st = 0;
+                temp.end = 360;
+                c1.Add(temp);
+            }
+            if (state == 'c')
+            {
+                if (keyCode == Keys.Right)
+                {
+                    c1[c1.Count - 1].rad += 20;
+                }
+                if (keyCode == Keys.Left)
+                {
+                    c1[c1.Count - 1].rad -= 20;
                 }
             }
         }
@@ -233,7 +258,7 @@ namespace project
             bg = new Bitmap("bg.jpg");
             car = new Bitmap("car.png");
             car.MakeTransparent(car.GetPixel(0, 0));
-          
+
 
         }
 
@@ -258,7 +283,11 @@ namespace project
             {
                 g.DrawLine(p, l.Xst, l.Yst, l.Xend, l.Yend);
             }
+            foreach (var c in c1)
+            {
+                c.Drawcircle(g);
 
+            }
         }
     }
 }
