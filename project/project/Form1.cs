@@ -111,8 +111,8 @@ namespace project
         public int movex = 0;
         public int movey = 0;
         public bool flag = false;
-       
-       
+
+
 
         public void Drawcircle(Graphics g)
         {
@@ -144,7 +144,56 @@ namespace project
             return p;
         }
     }
+    public class LineSegment
+    {
+        public PointF ptS, ptE;
 
+        public LineSegment(PointF ptS, PointF ptE)
+        {
+            this.ptS = ptS;
+            this.ptE = ptE;
+        }
+
+        public void DrawYourSelf(Graphics g, bool highlight = true)
+        {
+            g.DrawLine(Pens.White, ptS.X, ptS.Y, ptE.X, ptE.Y);
+            if (highlight)
+            {
+
+                g.FillEllipse(Brushes.White, ptS.X - 5, ptS.Y - 5, 10, 10);
+                g.FillEllipse(Brushes.White, ptE.X - 5, ptE.Y - 5, 10, 10);
+            }
+        }
+    }
+    public class Transformation
+    {
+        public LineSegment Rotate(LineSegment L, float xRef, float yRef, float angle)
+        {
+            L.ptS.X -= xRef;
+            L.ptS.Y -= yRef;
+            L.ptE.X -= xRef;
+            L.ptE.Y -= yRef;
+
+            double xNew = L.ptS.X * Math.Cos(angle) - L.ptS.Y * Math.Sin(angle);
+            double yNew = L.ptS.X * Math.Sin(angle) + L.ptS.Y * Math.Cos(angle);
+
+            L.ptS.X = (float)xNew;
+            L.ptS.Y = (float)yNew;
+
+            xNew = L.ptE.X * Math.Cos(angle) - L.ptE.Y * Math.Sin(angle);
+            yNew = L.ptE.X * Math.Sin(angle) + L.ptE.Y * Math.Cos(angle);
+
+            L.ptE.X = (float)xNew;
+            L.ptE.Y = (float)yNew;
+
+            L.ptS.X += xRef;
+            L.ptS.Y += yRef;
+            L.ptE.X += xRef;
+            L.ptE.Y += yRef;
+
+            return L;
+        }
+    }
     public partial class Form1 : Form
     {
         Bitmap off;
@@ -162,6 +211,11 @@ namespace project
         int road_index = 0;
         int car_x = 0;
         int car_y = 0;
+        Transformation tf = new Transformation();
+        LineSegment ls;
+        float total_angel = 0;
+        
+
         public Form1()
         {
             InitializeComponent();
@@ -178,7 +232,6 @@ namespace project
             //this.Location = new Point(1920, 0);
 
         }
-
         private void Tt_Tick(object? sender, EventArgs e)
         {
             if (is_start)
@@ -186,12 +239,10 @@ namespace project
 
             drawdb(CreateGraphics());
         }
-
         private void Form1_MouseDown(object? sender, MouseEventArgs e)
         {
 
         }
-
         private void Form1_KeyDown(object? sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -303,7 +354,6 @@ namespace project
             car.MakeTransparent(car.GetPixel(0, 0));
 
         }
-
         void motion()
         {
             if (is_start)
@@ -316,7 +366,7 @@ namespace project
                     {
                         lines[line_index].CalcNextPoint();
                         lines[line_index].can_move = true;
-                        car_x = (int)lines[line_index].cx;
+                        car_x = (int)lines[line_index].cx-car.Width;
                         car_y = (int)lines[line_index].cy - car.Height;
                         if (lines[line_index].direction == 0)
                         {
@@ -326,15 +376,34 @@ namespace project
                         }
                     }
 
-                    // for circle motion
                     else if (road[road_index] == 'c')
                     {
-                        
+                       if(total_angel==0)
+                        {
+
+                            ls = new LineSegment(
+                                                 new PointF(car_x + car.Width / 2, (car_y + car.Height / 2)),
+                                                 new PointF(car_x + car.Width / 2, (car_y + car.Height / 2))
+                             );
+
+                        }
+                         
+
+                        ls = tf.Rotate(ls, c1[circle_index].xc, c1[circle_index].yc, -0.1f);
+                        car_x = (int)ls.ptS.X - car.Width / 2;
+                        car_y = (int)ls.ptS.Y - car.Height / 2;
+                        total_angel += 0.1f;
+                        if(total_angel>=Math.PI*2)
+                        {
+                            circle_index++;
+                            road_index++;
+                            total_angel = 0;
+                        }
+
                     }
                 }
             }
         }
-
         private void Form1_Paint(object? sender, PaintEventArgs e)
         {
             drawdb(e.Graphics);
@@ -354,7 +423,7 @@ namespace project
             if (!is_start)
             {
 
-                g.DrawImage(car, 0, ClientSize.Height / 2);
+                //g.DrawImage(car, 0, ClientSize.Height / 2);
             }
             else
             {
@@ -371,6 +440,7 @@ namespace project
                 c.Drawcircle(g);
 
             }
+            g.DrawLine(p, 0, ClientSize.Height / 2+car.Height, 100, ClientSize.Height / 2+car.Height);
         }
     }
 }
