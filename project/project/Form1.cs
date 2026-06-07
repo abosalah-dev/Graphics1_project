@@ -214,7 +214,9 @@ namespace project
         Transformation tf = new Transformation();
         LineSegment ls;
         float total_angel = 0;
-
+        List<BezierCurve> curves = new List<BezierCurve>();
+        int curveindex = 0;
+        BezierCurve cc = null;
 
         public Form1()
         {
@@ -241,7 +243,12 @@ namespace project
         }
         private void Form1_MouseDown(object? sender, MouseEventArgs e)
         {
-
+            if(state == 'b' && cc != null)
+            {
+                cc.SetControlPoint(new Point(e.X, e.Y));
+                current_xend = e.X;
+                current_yend = e.Y;
+            }
         }
         private void Form1_KeyDown(object? sender, KeyEventArgs e)
         {
@@ -255,6 +262,7 @@ namespace project
             }
             drawline(e.KeyCode);
             drawcircles(e.KeyCode);
+            drawBezier(e.KeyCode);
         }
         void drawline(Keys keyCode)
         {
@@ -351,6 +359,17 @@ namespace project
                 }
             }
         }
+        void drawBezier(Keys keycode)
+        {
+            if (keycode == Keys.B)
+            {
+                state = 'b';
+                cc = new BezierCurve();
+                cc.SetControlPoint(new Point((int)current_xend, (int)current_yend));
+                curves.Add(cc);
+                road.Add('b');
+            }
+        }
         private void Form1_Load(object? sender, EventArgs e)
         {
             off = new Bitmap(ClientSize.Width, ClientSize.Height);
@@ -406,6 +425,20 @@ namespace project
                         }
 
                     }
+                    else if (road[road_index] == 'b')
+                    {
+                        BezierCurve curve = curves[curveindex];
+                        PointF p = curve.CalcCurvePointAtTime(curve.t);
+                        car_x = (int)p.X - car.Width / 2;
+                        car_y = (int)p.Y - car.Height;
+                        curve.t += 0.01f;
+                        if(curve.t > 1.0f)
+                        {
+                            curve.t = 0;
+                            curveindex++;
+                            road_index++;
+                        }
+                    }
                 }
             }
         }
@@ -444,6 +477,10 @@ namespace project
             {
                 c.Drawcircle(g);
 
+            }
+            foreach(var curve in curves)
+            {
+                curve.DrawCurve(g);
             }
             g.DrawLine(p, 0, ClientSize.Height / 2 + car.Height, 100, ClientSize.Height / 2 + car.Height);
         }
