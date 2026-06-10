@@ -214,7 +214,7 @@ namespace project
         Transformation tf = new Transformation();
         LineSegment ls;
         float total_angel = 0;
-        
+
 
         public Form1()
         {
@@ -320,7 +320,7 @@ namespace project
             {
                 state = 'c';
                 Circle temp = new Circle();
-                temp.rad = 50;
+                temp.rad = 70;
                 temp.xc = (int)current_xend;
                 temp.yc = (int)current_yend - temp.rad;
                 temp.st = 0;
@@ -340,8 +340,13 @@ namespace project
                     }
                     if (keyCode == Keys.Left)
                     {
-                        c1[c1.Count - 1].rad -= 20;
-                        c1[c1.Count - 1].yc += 20;
+                        //Text = c1[c1.Count - 1].rad.ToString();
+                        if (c1[c1.Count - 1].rad > 70)
+                        {
+
+                            c1[c1.Count - 1].rad -= 20;
+                            c1[c1.Count - 1].yc += 20;
+                        }
                     }
                 }
             }
@@ -366,7 +371,7 @@ namespace project
                     {
                         lines[line_index].CalcNextPoint();
                         lines[line_index].can_move = true;
-                        car_x = (int)lines[line_index].cx-car.Width;
+                        car_x = (int)lines[line_index].cx - car.Width;
                         car_y = (int)lines[line_index].cy - car.Height;
                         if (lines[line_index].direction == 0)
                         {
@@ -378,7 +383,7 @@ namespace project
 
                     else if (road[road_index] == 'c')
                     {
-                       if(total_angel==0)
+                        if (total_angel == 0)
                         {
 
                             ls = new LineSegment(
@@ -387,13 +392,13 @@ namespace project
                              );
 
                         }
-                         
+
 
                         ls = tf.Rotate(ls, c1[circle_index].xc, c1[circle_index].yc, -0.1f);
                         car_x = (int)ls.ptS.X - car.Width / 2;
                         car_y = (int)ls.ptS.Y - car.Height / 2;
                         total_angel += 0.1f;
-                        if(total_angel>=Math.PI*2)
+                        if (total_angel >= Math.PI * 2)
                         {
                             circle_index++;
                             road_index++;
@@ -440,7 +445,7 @@ namespace project
                 c.Drawcircle(g);
 
             }
-            g.DrawLine(p, 0, ClientSize.Height / 2+car.Height, 100, ClientSize.Height / 2+car.Height);
+            g.DrawLine(p, 0, ClientSize.Height / 2 + car.Height, 100, ClientSize.Height / 2 + car.Height);
         }
     }
 }

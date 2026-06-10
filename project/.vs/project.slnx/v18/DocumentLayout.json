@@ -18,8 +18,12 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{c6f34f0d-7ae5-4f3a-be61-fe0c21ae9eb8}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -28,7 +32,7 @@
               "RelativeDocumentMoniker": "project\\Form1.cs",
               "ToolTip": "D:\\my problems\\Graphics1\\Graphics1_project\\project\\project\\Form1.cs",
               "RelativeToolTip": "project\\Form1.cs",
-              "ViewState": "AgIAAJYBAADgzMzMzMw8wLcBAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAAAMBAAAAy8zMzMwiwA0BAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-16T09:49:53.22Z",
               "EditorCaption": ""
